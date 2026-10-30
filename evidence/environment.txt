@@ -1,0 +1,8 @@
+Preparation environment, 2026-10-30
+OS: Linux-6.18.57-x86_64-with-glibc2.39
+Architecture: x86_64
+Python: 3.12.14
+Visible CPUs: 9
+.NET SDK: 10.0.403; runtime: 10.0.14
+Docker: unavailable
+This is a local correctness check, not a benchmark; CPU/RAM limits of the host were not controlled.

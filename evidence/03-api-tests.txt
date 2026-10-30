@@ -1,0 +1,5 @@
+python3 scripts/check_contract.py
+PASS: offline skeleton structure, local refs and Python syntax; application NOT tested.
+python3 tests/smoke.py --base-url "http://localhost:8080" 
+FAIL: GET /health/live: connection/TLS failure (URLError)
+make: *** [Makefile:19: test] Error 1

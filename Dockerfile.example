@@ -1,0 +1,8 @@
+# Teaching outline, not a runnable Dockerfile. Implement your own Dockerfile.
+# 1. Choose a runtime/toolchain version and pin the base image tag/digest.
+# 2. Copy dependency manifests first; install from the language lockfile.
+# 3. Copy source and build. For compiled languages use a separate runtime stage.
+# 4. Run the HTTP process as PID 1; listen on 0.0.0.0:8080.
+# 5. Add non-root, signals and healthcheck according to the current rubric.
+# 6. Pass runtime config/secrets at startup, never COPY .env or secret files.
+# This file deliberately has no FROM/CMD: selecting/implementing them is the task.

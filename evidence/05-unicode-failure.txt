@@ -1,0 +1,69 @@
+$ /tmp/lab-dotnet/dotnet restore src/Messenger --locked-mode
+  Determining projects to restore...
+  Restored /workspace/scratch/d77cff9a39c3/lab1/src/Messenger/Messenger.csproj (in 91 ms).
+
+$ /tmp/lab-dotnet/dotnet build src/Messenger -c Release --no-restore
+  Messenger -> /workspace/scratch/d77cff9a39c3/lab1/src/Messenger/bin/Release/net10.0/Messenger.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:00.77
+
+$ /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3 scripts/check_contract.py
+PASS: offline skeleton structure, local refs and Python syntax; application NOT tested.
+
+$ /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3 tests/smoke.py --base-url http://127.0.0.1:47661
+PASS: lab1 public API scenario; infrastructure and grading evidence remain separate.
+
+$ /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3 tests_own/test_api.py --base-url http://127.0.0.1:47661
+test_100_messages_from_10_clients (__main__.Acceptance.test_100_messages_from_10_clients) ... 
+RACE PASS: clients=10 sent=100 stored=100 unique=100 elapsed=0.080s
+ok
+test_chat_atomic_validation (__main__.Acceptance.test_chat_atomic_validation) ... ok
+test_duplicate_username (__main__.Acceptance.test_duplicate_username) ... ok
+test_empty_and_unicode_messages (__main__.Acceptance.test_empty_and_unicode_messages) ... ok
+test_invalid_query (__main__.Acceptance.test_invalid_query) ... ok
+test_malformed_json_and_strict_fields (__main__.Acceptance.test_malformed_json_and_strict_fields) ... 
+  test_malformed_json_and_strict_fields (__main__.Acceptance.test_malformed_json_and_strict_fields) (raw=b'{"text":"\\ud800"}') ... FAIL
+  test_malformed_json_and_strict_fields (__main__.Acceptance.test_malformed_json_and_strict_fields) (raw=b'{"text":"\xff"}') ... FAIL
+test_pagination_and_cursor_scope (__main__.Acceptance.test_pagination_and_cursor_scope) ... ok
+test_private_chat_and_authentication_order (__main__.Acceptance.test_private_chat_and_authentication_order) ... ok
+test_user_validation (__main__.Acceptance.test_user_validation) ... ok
+
+======================================================================
+FAIL: test_malformed_json_and_strict_fields (__main__.Acceptance.test_malformed_json_and_strict_fields) (raw=b'{"text":"\\ud800"}')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/d77cff9a39c3/lab1/tests_own/test_api.py", line 48, in test_malformed_json_and_strict_fields
+    self.error('POST', self.path + '/messages', 400, 'invalid_request', actor=self.a,
+  File "/workspace/scratch/d77cff9a39c3/lab1/tests_own/test_api.py", line 26, in error
+    response = self.c.call(method, path, status, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/d77cff9a39c3/lab1/tests/client.py", line 132, in call
+    check(status in allowed, method + ' ' + path.split('?')[0] + ': expected ' + str(allowed) + ', received ' + str(status))
+  File "/workspace/scratch/d77cff9a39c3/lab1/tests/client.py", line 24, in check
+    raise Failure(message)
+client.Failure: POST /api/v1/chats/48e52b2f-bc6b-4b6f-ade3-dc2a447129dc/messages: expected [400], received 500
+
+======================================================================
+FAIL: test_malformed_json_and_strict_fields (__main__.Acceptance.test_malformed_json_and_strict_fields) (raw=b'{"text":"\xff"}')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/d77cff9a39c3/lab1/tests_own/test_api.py", line 48, in test_malformed_json_and_strict_fields
+    self.error('POST', self.path + '/messages', 400, 'invalid_request', actor=self.a,
+  File "/workspace/scratch/d77cff9a39c3/lab1/tests_own/test_api.py", line 26, in error
+    response = self.c.call(method, path, status, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/d77cff9a39c3/lab1/tests/client.py", line 132, in call
+    check(status in allowed, method + ' ' + path.split('?')[0] + ': expected ' + str(allowed) + ', received ' + str(status))
+  File "/workspace/scratch/d77cff9a39c3/lab1/tests/client.py", line 24, in check
+    raise Failure(message)
+client.Failure: POST /api/v1/chats/48e52b2f-bc6b-4b6f-ade3-dc2a447129dc/messages: expected [400], received 500
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.240s
+
+FAILED (failures=2)
+

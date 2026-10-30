@@ -1,0 +1,43 @@
+$ /tmp/lab-dotnet/dotnet restore src/Messenger --locked-mode
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+
+$ /tmp/lab-dotnet/dotnet build src/Messenger -c Release --no-restore
+  Messenger -> /workspace/scratch/d77cff9a39c3/lab1/src/Messenger/bin/Release/net10.0/Messenger.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:02.80
+
+$ /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3 scripts/check_contract.py
+PASS: offline skeleton structure, local refs and Python syntax; application NOT tested.
+
+$ /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3 tests/smoke.py --base-url http://127.0.0.1:53173
+PASS: lab1 public API scenario; infrastructure and grading evidence remain separate.
+
+$ /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3 tests_own/test_api.py --base-url http://127.0.0.1:53173
+test_100_messages_from_10_clients (__main__.Acceptance.test_100_messages_from_10_clients) ... 
+RACE PASS: clients=10 sent=100 stored=100 unique=100 elapsed=0.106s
+ok
+test_chat_atomic_validation (__main__.Acceptance.test_chat_atomic_validation) ... ok
+test_duplicate_username (__main__.Acceptance.test_duplicate_username) ... ok
+test_empty_and_unicode_messages (__main__.Acceptance.test_empty_and_unicode_messages) ... ok
+test_invalid_query (__main__.Acceptance.test_invalid_query) ... ok
+test_malformed_json_and_strict_fields (__main__.Acceptance.test_malformed_json_and_strict_fields) ... ok
+test_pagination_and_cursor_scope (__main__.Acceptance.test_pagination_and_cursor_scope) ... ok
+test_private_chat_and_authentication_order (__main__.Acceptance.test_private_chat_and_authentication_order) ... ok
+test_user_validation (__main__.Acceptance.test_user_validation) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.258s
+
+OK
+
+PASS built-in --healthcheck
+PASS local SIGTERM with incomplete request: 5.029s, exit=0
+PASS stopped process rejects new connections
+PASS local restart clears users and chats
+PASS no message sentinel in logs
+PASS local verification; Docker still requires separate verification

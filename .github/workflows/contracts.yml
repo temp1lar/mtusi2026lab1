@@ -1,0 +1,16 @@
+name: Skeleton contracts
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  contracts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r requirements-dev.txt
+      - run: make check validate PYTHON=python
+# This job validates the skeleton, not a student solution.
+# Add build, readiness and make test in a separate application job.

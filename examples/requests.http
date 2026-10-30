@@ -1,0 +1,37 @@
+# Optional HTTP-client worksheet; no extension is required by the course.
+# Replace IDs/token locally from real responses; do not commit filled-in credentials.
+# Canonical API: contracts/openapi.json and contracts/README.md.
+@baseUrl = http://localhost:8080
+@aliceId = REPLACE_WITH_CREATED_ALICE_UUID
+@bobId = REPLACE_WITH_CREATED_BOB_UUID
+@chatId = REPLACE_WITH_CREATED_CHAT_UUID
+
+### Liveness
+GET {{baseUrl}}/health/live
+
+### Register Alice (repeat with username bob/display_name Боб)
+POST {{baseUrl}}/api/v1/users
+Content-Type: application/json
+
+{
+  "username": "alice",
+  "display_name": "Алиса"
+}
+
+### Create chat; both UUIDs must be real registered users
+POST {{baseUrl}}/api/v1/chats
+X-User-Id: {{aliceId}}
+Content-Type: application/json
+
+{"title":"Проект по ВНП","member_ids":["{{aliceId}}","{{bobId}}"]}
+
+### Send message
+POST {{baseUrl}}/api/v1/chats/{{chatId}}/messages
+X-User-Id: {{aliceId}}
+Content-Type: application/json
+
+{"text":"Привет, Боб!"}
+
+### Read first page
+GET {{baseUrl}}/api/v1/chats/{{chatId}}/messages?limit=50
+X-User-Id: {{aliceId}}

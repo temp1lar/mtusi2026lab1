@@ -1,0 +1,5 @@
+{"EventId":0,"LogLevel":"Information","Category":"Messenger","Message":"Messenger starting; app_env=lab","State":{"Environment":"lab","{OriginalFormat}":"Messenger starting; app_env={Environment}"}}
+{"EventId":14,"LogLevel":"Information","Category":"Microsoft.Hosting.Lifetime","Message":"Now listening on: http://0.0.0.0:8080","State":{"address":"http://0.0.0.0:8080","{OriginalFormat}":"Now listening on: {address}"}}
+{"EventId":0,"LogLevel":"Information","Category":"Microsoft.Hosting.Lifetime","Message":"Application started. Press Ctrl\u002BC to shut down.","State":{"{OriginalFormat}":"Application started. Press Ctrl\u002BC to shut down."}}
+{"EventId":0,"LogLevel":"Information","Category":"Microsoft.Hosting.Lifetime","Message":"Hosting environment: Production","State":{"EnvName":"Production","{OriginalFormat}":"Hosting environment: {EnvName}"}}
+{"EventId":0,"LogLevel":"Information","Category":"Microsoft.Hosting.Lifetime","Message":"Content root path: /workspace/scratch/d77cff9a39c3/lab1","State":{"ContentRoot":"/workspace/scratch/d77cff9a39c3/lab1","{OriginalFormat}":"Content root path: {ContentRoot}"}}

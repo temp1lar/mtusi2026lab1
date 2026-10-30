@@ -1,0 +1,4 @@
+Failed to map file. mmap(/workspace/scratch/d77cff9a39c3/lab1/src/Messenger/bin/Release/net10.0/Messenger.runtimeconfig.json) failed with error 22
+Cannot use file stream for [/workspace/scratch/d77cff9a39c3/lab1/src/Messenger/bin/Release/net10.0/Messenger.runtimeconfig.json]: Invalid argument
+Failed to parse file [/workspace/scratch/d77cff9a39c3/lab1/src/Messenger/bin/Release/net10.0/Messenger.runtimeconfig.json]. 
+Invalid runtimeconfig.json [/workspace/scratch/d77cff9a39c3/lab1/src/Messenger/bin/Release/net10.0/Messenger.runtimeconfig.json] [/workspace/scratch/d77cff9a39c3/lab1/src/Messenger/bin/Release/net10.0/Messenger.runtimeconfig.dev.json]

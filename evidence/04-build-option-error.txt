@@ -1,0 +1,8 @@
+$ /tmp/lab-dotnet/dotnet build src/Messenger -c Release --locked-mode
+MSBUILD : error MSB1001: Unknown switch.
+    Full command line: '/tmp/lab-dotnet/sdk/10.0.403/MSBuild -maxcpucount --verbosity:m -tlp:default=auto --property:Configuration=Release --property:NuGetInteractive=false --restoreProperty:Configuration=Release --restoreProperty:NuGetInteractive=false --restoreProperty:EnableDefaultCompileItems=false --restoreProperty:EnableDefaultEmbeddedResourceItems=false --restoreProperty:EnableDefaultNoneItems=false --nologo src/Messenger --locked-mode -consoleloggerparameters:Summary -restore -distributedlogger:Microsoft.DotNet.Cli.Commands.MSBuild.MSBuildLogger,/tmp/lab-dotnet/sdk/10.0.403/dotnet.dll*Microsoft.DotNet.Cli.Commands.MSBuild.MSBuildForwardingLogger,/tmp/lab-dotnet/sdk/10.0.403/dotnet.dll'
+  Switches appended by response files:
+Switch: --locked-mode
+
+For switch syntax, type "MSBuild -help"
+
