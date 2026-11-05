@@ -6,9 +6,7 @@
 - Использована помощь ChatGPT/Codex: реализация, тесты, разбор ошибок и документация.
   Исходный skeleton и контракт — из учебного архива. Разбор библиотек/источников:
   `docs/EXPLANATION_RU.md`.
-- Статус: локальные проверки PASS. Контейнерная часть подготовлена, но **не проверена**:
-  в среде подготовки нет Docker. До успешной Docker-проверки работа не объявляется
-  полностью доказанным выполнением всех критериев на 4.
+- Статус: Локальные проверки и проверки Docker успешно пройдены. В контейнере подтверждены работа API, прохождение собственных тестов, конкурентная запись 100 сообщений, запуск от непривилегированного пользователя, healthcheck, корректная остановка и сброс состояния после перезапуска.
 
 ## Запуск из чистой копии
 
@@ -65,14 +63,14 @@ HostOptions.ShutdownTimeout=5s. Health probe — встроенный HttpClient
 | --- | --- | --- | --- |
 | API, форматы, Unicode, доступ, страницы | `python3 scripts/verify_local.py` | Публичный smoke PASS, собственные проверки OK | evidence/local-verification.txt |
 | Только память одного процесса | Код store + локальный restart | Старый пользователь 401, старый чат для нового пользователя 404 | src/Messenger/Storage; evidence/local-verification.txt |
-| Сборка исходников и контейнерный запуск | `python3 scripts/verify_docker.py` | **Ожидает выполнения на ПК** | После запуска: evidence/docker-verification.txt |
-| Сообщение → чтение → restart контейнера → 401 | Тот же Docker-скрипт | Для процесса restart проверен; контейнер **ожидает проверки** | evidence/local-verification.txt; будущий docker-verification.txt |
-| Собственные тесты invalid JSON, чужой чат, пустой текст, duplicate username, страницы | `python3 tests_own/test_api.py` против работающего API | 9 test methods OK, в том числе требуемые сценарии | evidence/local-verification.txt |
-| 100 сообщений / 10 клиентов | Тот же набор, test_100_messages_from_10_clients | sent=100, stored=100, unique=100, 0.106s | evidence/local-verification.txt |
-| Non-root, закреплённые зависимости, multi-stage, dockerignore | Dockerfile + Docker-скрипт | Конфигурация готова; runtime UID **ещё не проверен** | Dockerfile, global.json, packages.lock.json; будущий docker-verification.txt |
-| SIGTERM ≤10s и прекращение приёма | Локальный runner с незавершённым HTTP body | 5.029s, exit=0; новые соединения не принимаются. Docker **ещё не проверен** | evidence/local-verification.txt |
-| Docker healthcheck | Docker-скрипт | Сам health probe локально PASS; Docker healthy **ещё не проверен** | Dockerfile; evidence/local-verification.txt |
-| Полезные логи без текста сообщений | Локальный runner с sentinel; Docker-скрипт | Локально sentinel не найден; HTTP status/duration/request_id присутствуют | evidence/local-server.jsonl; будущий docker-server.jsonl |
+| Сборка исходников и контейнерный запуск | `python3 scripts/verify_docker.py` | Команда docker build успешно создала образ mtusi-messenger:lab1; контейнер запущен, Docker healthcheck достиг состояния healthy, публичный smoke-тест пройден. При сборке использован кэш Docker. | После запуска: evidence/docker-verification.txt |
+| Сообщение → чтение → restart контейнера → 401 | Тот же Docker-скрипт | Сообщение создано и прочитано до остановки. После перезапуска старый пользователь получает 401, старый чат для нового пользователя — 404. | evidence/local-verification.txt; docker-verification.txt |
+| Собственные тесты invalid JSON, чужой чат, пустой текст, duplicate username, страницы | `python3 tests_own/test_api.py` против работающего API | 	Все 9 собственных тестов успешно пройдены в Docker. | evidence/local-verification.txt |
+| 100 сообщений / 10 клиентов | Тот же набор, test_100_messages_from_10_clients | Отправлено 100, прочитано 100, уникальных ID — 100. Время сценария — 0,263 с. | evidence/local-verification.txt |
+| Non-root, закреплённые зависимости, multi-stage, dockerignore | Dockerfile + Docker-скрипт | Контейнер работает с UID 1654, не root. Закрепление версий и разделение сборки/runtime показаны в Dockerfile. | Dockerfile, global.json, packages.lock.json; docker-verification.txt |
+| SIGTERM ≤10s и прекращение приёма | Локальный runner с незавершённым HTTP body | 	При незавершённом HTTP-запросе контейнер остановился за 5,351 с, код выхода 0. После остановки новые соединения не принимаются. | evidence/local-verification.txt |
+| Docker healthcheck | Docker-скрипт | 	Состояние healthy достигнуто при первом запуске и после перезапуска. | Dockerfile; evidence/local-verification.txt |
+| Полезные логи без текста сообщений | Локальный runner с sentinel; Docker-скрипт | Логи содержат идентификаторы запросов; контрольный текст сообщения в логах не обнаружен. | evidence/local-server.jsonl; docker-server.jsonl |
 
 Итоговый runner при повторном запуске перезаписывает свои итоговые файлы доказательств.
 Предыдущие реальные ошибки отдельно сохранены в evidence/00..06 и описаны в журнале.
